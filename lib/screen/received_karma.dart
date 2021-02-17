@@ -21,17 +21,24 @@ class KarmaCoins extends StatelessWidget {
                 width: screenWidth * 0.8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Column(
                       children: [
-                        Text(
-                          'You earned 10 Karma',
-                          style: TextStyle(fontSize: 30.0, color: Colors.black),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              'You earned 10 Karma points!',
+                              style:
+                                  TextStyle(fontSize: 25.0, color: Colors.black),
+                            ),
+                          ),
                         ),
-                        Text(
+                        /*Text(
                           'points!',
                           style: TextStyle(fontSize: 30.0, color: Colors.black),
-                        ),
+                        ),*/
                         SizedBox(
                           height: 15.0,
                         ),

@@ -13,6 +13,7 @@ const kAnimationDuration = Duration(milliseconds: 200);
 const kFacebookColor = Color(0xFF1878f1);
 const kGoogleColor = Color(0xFFF5F5F5);
 const kGoogleTextColor = Color(0xFF535353);
+const kResendOtpColor = Color(0xFFD6D6D6);
 
 // Form Error
 final RegExp emailValidatorRegExp =
