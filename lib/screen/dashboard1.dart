@@ -164,9 +164,11 @@ class _Dashboard1State extends State<Dashboard1> {
                       ),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddPicture()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddPicture(),
+                          ),
+                        );
                       },
                     ),
                   ),

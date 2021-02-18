@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trafic_ui/screen/camera_screen.dart';
 import 'package:trafic_ui/screen/dashboard2.dart';
 import 'package:trafic_ui/screen/received_karma.dart';
 
@@ -8,6 +14,12 @@ class AddPicture extends StatefulWidget {
 }
 
 class _AddPictureState extends State<AddPicture> {
+  CameraController cameraController;
+  List cameras;
+  int selectedCameraIdx = 0;
+  List<String> imagePath = List();
+  StreamController<int> streamController = new StreamController<int>();
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -32,14 +44,31 @@ class _AddPictureState extends State<AddPicture> {
                   ),
                   Positioned(
                     top: 10.0,
-                    child: Container(
-                      height: screenHeight * 0.41,
-                      width: screenWidth * 0.8,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color(0xffEDF0F2),
-                      ),
-                    ),
+                    child: StreamBuilder<int>(
+                        initialData: 0,
+                        stream: streamController.stream,
+                        builder: (context, snapshot) {
+                          return Container(
+                            height: screenHeight * 0.41,
+                            width: screenWidth * 0.8,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: imagePath.isNotEmpty
+                                    ? FileImage(
+                                        File(
+                                          imagePath[snapshot.data],
+                                        ),
+                                      )
+                                    : FileImage(
+                                        File(""),
+                                      ),
+                              ),
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: Color(0xffEDF0F2),
+                            ),
+                          );
+                        }),
                   ),
                   Positioned(
                     bottom: 1.0,
@@ -59,14 +88,187 @@ class _AddPictureState extends State<AddPicture> {
                           ),
                         ],
                       ),
-                      child: Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.black,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CameraScreen((value) {
+                                setState(() {
+                                  print("VALUE ADDED::${value.length}");
+                                  imagePath.clear();
+                                  return imagePath.addAll(value);
+                                });
+                              }),
+                            ),
+                          );
+                        },
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
+              /*Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.2,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: imagePath.isNotEmpty
+                              ? FileImage(
+                                  File(
+                                    imagePath[0],
+                                  ),
+                                )
+                              : FileImage(
+                                  File(""),
+                                ),
+                        ),
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: Color(0xffEDF0F2),
+                      ),
+                    ),
+                    if (imagePath.length == 2)
+                      Container(
+                        height: screenHeight * 0.1,
+                        width: screenWidth * 0.2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imagePath.isNotEmpty
+                                ? FileImage(
+                                    File(
+                                      imagePath[1],
+                                    ),
+                                  )
+                                : FileImage(
+                                    File(""),
+                                  ),
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color(0xffEDF0F2),
+                        ),
+                      ),
+                    if (imagePath.length == 3)
+                      Container(
+                        height: screenHeight * 0.1,
+                        width: screenWidth * 0.2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imagePath.isNotEmpty
+                                ? FileImage(
+                                    File(
+                                      imagePath[2],
+                                    ),
+                                  )
+                                : FileImage(
+                                    File(""),
+                                  ),
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color(0xffEDF0F2),
+                        ),
+                      ),
+                    if (imagePath.length == 4)
+                      Container(
+                        height: screenHeight * 0.1,
+                        width: screenWidth * 0.2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imagePath.isNotEmpty
+                                ? FileImage(
+                                    File(
+                                      imagePath[3],
+                                    ),
+                                  )
+                                : FileImage(
+                                    File(""),
+                                  ),
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color(0xffEDF0F2),
+                        ),
+                      )
+                  ],
+                ),
+              ),*/
+              imagePath.isNotEmpty
+                  ? Container(
+                      height: screenHeight * 0.1,
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        reverse: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: imagePath.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  streamController.add(index);
+                                },
+                                child: Container(
+                                  height: screenHeight * 0.1,
+                                  width: screenWidth * 0.2,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: imagePath.isNotEmpty
+                                          ? FileImage(
+                                              File(
+                                                imagePath[index],
+                                              ),
+                                            )
+                                          : FileImage(
+                                              File(""),
+                                            ),
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    color: Color(0xffEDF0F2),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 0.0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      print("imagepath::${imagePath.length}");
+                                      imagePath.removeAt(index);
+                                    });
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: CircleAvatar(
+                                      radius: 14.0,
+                                      backgroundColor: Colors.white,
+                                      child:
+                                          Icon(Icons.close, color: Colors.red),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  : SizedBox.shrink(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

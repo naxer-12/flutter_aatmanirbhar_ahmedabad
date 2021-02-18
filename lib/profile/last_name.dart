@@ -55,7 +55,7 @@ class _LastNameState extends State<LastName> {
                 color: Colors.grey,
                 child: AatmaNirbharFlutterTextField(
                   textInputType: TextInputType.emailAddress,
-                  hintText: "Add your first name",
+                  hintText: "Add your last name",
                 ),
               ),
               SizedBox(
