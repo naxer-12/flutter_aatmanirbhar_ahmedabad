@@ -90,18 +90,24 @@ class _AddPictureState extends State<AddPicture> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CameraScreen((value) {
-                                setState(() {
-                                  print("VALUE ADDED::${value.length}");
-                                  imagePath.clear();
-                                  return imagePath.addAll(value);
-                                });
-                              }),
-                            ),
-                          );
+                          imagePath.length < 4
+                              ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CameraScreen((value) {
+                                      setState(() {
+                                        print("VALUE ADDED::${value.length}");
+                                        // imagePath.clear();
+                                        print(value + imagePath);
+                                        streamController.add(imagePath.length);
+                                        return imagePath.addAll(value);
+                                      });
+                                    }),
+                                  ),
+                                )
+                              : Text(
+                                  'Cannot add more than 4',
+                                );
                         },
                         child: Icon(
                           Icons.camera_alt_outlined,
@@ -250,6 +256,8 @@ class _AddPictureState extends State<AddPicture> {
                                     setState(() {
                                       print("imagepath::${imagePath.length}");
                                       imagePath.removeAt(index);
+                                      streamController
+                                          .add(imagePath.length - 1);
                                     });
                                   },
                                   child: Align(
