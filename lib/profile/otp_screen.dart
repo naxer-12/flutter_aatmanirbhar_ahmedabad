@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trafic_ui/Util/AatmanirbharFlutterTextField.dart';
 import 'package:trafic_ui/component/default_button.dart';
 import 'package:trafic_ui/profile/complete_screen.dart';
+import 'package:trafic_ui/util/pin_view.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
@@ -36,7 +37,7 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(
                 height: getProportionateScreenWidth(70),
               ),
-              Row(
+              /*  Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
@@ -86,7 +87,48 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                 ],
-              ),
+              ),*/
+
+              PinView(
+                  count: 4,
+                  // describes the field number
+                  autoFocusFirstField: false,
+                  // defaults to true
+                  margin: EdgeInsets.all(2.5),
+                  // margin between the fields
+                  style: TextStyle(
+                      // style for the fields
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.w500),
+                  inputDecoration: InputDecoration(
+                    hintText: "",
+                    hintStyle: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.grey,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  submit: (String pin) {
+                    // when all the fields are filled
+                    // submit function runs with the pin
+                    print(pin);
+                  }),
               SizedBox(
                 height: 20.0,
               ),

@@ -162,40 +162,37 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _returnImage,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Container(
-          child: Stack(
-            children: <Widget>[
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Container(
+        child: Stack(
+          children: <Widget>[
 //            Expanded(
 //              flex: 1,
 //              child: _cameraPreviewWidget(),
 //            ),
-              Align(
-                alignment: Alignment.center,
-                child: cameraPreview(),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 120,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(15),
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      cameraToggle(),
-                      cameraControl(context),
-                      Spacer(),
-                    ],
-                  ),
+            Align(
+              alignment: Alignment.center,
+              child: cameraPreview(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 120,
+                width: double.infinity,
+                padding: EdgeInsets.all(15),
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    cameraToggle(),
+                    cameraControl(context),
+                    Spacer(),
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
