@@ -4,6 +4,8 @@ import 'package:trafic_ui/Util/AatmanirbharFlutterTextField.dart';
 import 'package:trafic_ui/component/default_button.dart';
 import 'package:trafic_ui/profile/last_name.dart';
 import 'package:trafic_ui/size_config.dart';
+import 'package:trafic_ui/util/shared_pref_constant.dart';
+import 'package:trafic_ui/util/shared_preference_util.dart';
 
 import 'contact_number.dart';
 
@@ -13,6 +15,8 @@ class LastName extends StatefulWidget {
 }
 
 class _LastNameState extends State<LastName> {
+  final TextEditingController lastEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +60,7 @@ class _LastNameState extends State<LastName> {
                 child: AatmaNirbharFlutterTextField(
                   textInputType: TextInputType.emailAddress,
                   hintText: "Add your last name",
+                  editTextController: lastEditingController,
                 ),
               ),
               SizedBox(
@@ -64,6 +69,9 @@ class _LastNameState extends State<LastName> {
               DefaultButton(
                 text: "Continue",
                 press: () {
+                  print("FIRSTNAME::${lastEditingController.text}");
+                  MySharedPreferences.instance.setStringValue(
+                      USER_LAST_NAME, lastEditingController.text);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

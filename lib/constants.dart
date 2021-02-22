@@ -5,7 +5,13 @@ import 'package:trafic_ui/screen/karma_coins.dart';
 import 'package:trafic_ui/screen/log_in.dart';
 import 'package:trafic_ui/screen/notifications.dart';
 import 'package:trafic_ui/size_config.dart';
+import 'package:trafic_ui/util/shared_pref_constant.dart';
+import 'package:trafic_ui/util/shared_preference_util.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'network/http/API.dart';
+import 'network/models/RemoveResponseModel.dart';
+import 'network/models/RemoveUserRequestModel.dart';
 
 const kTextColor = Colors.black;
 const kPrimaryColor = Color(0xFFFF7643);
@@ -59,6 +65,8 @@ _launchURL() async {
 }
 
 Drawer myDrawer(screenHeight, screenWidth, context) {
+  final API _api = API();
+
   return Drawer(
     child: Container(
       color: Color(0xffFBFDFF),
@@ -147,9 +155,25 @@ Drawer myDrawer(screenHeight, screenWidth, context) {
                         actions: <Widget>[
                           FlatButton(
                             child: Text("YES"),
-                            onPressed: () {
+                            onPressed: () async {
+                              RemoveUserModel userModel = await getLogOut();
+                              Future(() => (_api.removeUser(userModel)))
+                                  .then((value) {
+                                print(
+                                    "VALUE :: ${value as RemoveAccountResponse}");
+                                if ((value as RemoveAccountResponse)?.code ==
+                                    300) {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            LogInScreen()),
+                                    (route) => false,
+                                  );
+                                }
+                              });
+
                               //Put your code here which you want to execute on Yes button click.
-                              Navigator.of(context).pop();
                             },
                           ),
                           FlatButton(
@@ -189,4 +213,11 @@ Drawer myDrawer(screenHeight, screenWidth, context) {
       ),
     ),
   );
+}
+
+Future<RemoveUserModel> getLogOut() async {
+  int key = await MySharedPreferences.instance.getIntegerValue(USER_KEY);
+  int userId = await MySharedPreferences.instance.getIntegerValue(USER_ID);
+  RemoveUserModel removeUserModel = RemoveUserModel(key: key, userId: userId);
+  return removeUserModel;
 }

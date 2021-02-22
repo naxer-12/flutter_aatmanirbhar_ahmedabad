@@ -4,14 +4,21 @@ class AatmaNirbharFlutterTextField extends StatelessWidget {
   final InputDecoration inputDecoration;
   final TextInputType textInputType;
   final String hintText;
+  final TextEditingController editTextController;
+  final Key key;
 
-  const AatmaNirbharFlutterTextField(
-      {Key key, this.inputDecoration, this.textInputType, this.hintText})
-      : super(key: key);
+  const AatmaNirbharFlutterTextField({
+    this.key,
+    this.inputDecoration,
+    this.textInputType,
+    this.hintText,
+    this.editTextController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: editTextController,
       decoration: inputDecoration == null
           ? InputDecoration(
               hintText: hintText,

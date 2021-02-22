@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:trafic_ui/network/http/API.dart';
 import 'package:trafic_ui/screen/add_picture.dart';
 import 'package:trafic_ui/screen/notifications.dart';
 import '../constants.dart';
@@ -10,6 +11,8 @@ class Dashboard2 extends StatefulWidget {
 }
 
 class _Dashboard2State extends State<Dashboard2> {
+  final API _api = API();
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;

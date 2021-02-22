@@ -4,6 +4,8 @@ import 'package:trafic_ui/Util/AatmanirbharFlutterTextField.dart';
 import 'package:trafic_ui/component/default_button.dart';
 import 'package:trafic_ui/profile/last_name.dart';
 import 'package:trafic_ui/size_config.dart';
+import 'package:trafic_ui/util/shared_pref_constant.dart';
+import 'package:trafic_ui/util/shared_preference_util.dart';
 
 class FirstName extends StatefulWidget {
   @override
@@ -11,6 +13,8 @@ class FirstName extends StatefulWidget {
 }
 
 class _FirstNameState extends State<FirstName> {
+  final TextEditingController firstNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +58,7 @@ class _FirstNameState extends State<FirstName> {
                 child: AatmaNirbharFlutterTextField(
                   textInputType: TextInputType.emailAddress,
                   hintText: "Add your first name",
+                  editTextController: firstNameController,
                 ),
               ),
               SizedBox(
@@ -62,6 +67,9 @@ class _FirstNameState extends State<FirstName> {
               DefaultButton(
                 text: "Continue",
                 press: () {
+                  print("FIRSTNAME::${firstNameController.text}");
+                  MySharedPreferences.instance.setStringValue(
+                      USER_FIRST_NAME, firstNameController.text);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

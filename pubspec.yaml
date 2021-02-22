@@ -35,6 +35,8 @@ dependencies:
   camera: ^0.7.0+2
   path: ^1.6.4
   path_provider: ^1.6.11
+  shared_preferences: ^0.5.12+4
+  fluttertoast: ^7.1.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

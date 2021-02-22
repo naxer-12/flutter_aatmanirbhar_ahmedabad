@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trafic_ui/Util/AatmanirbharFlutterTextField.dart';
 import 'package:trafic_ui/component/default_button.dart';
+import 'package:trafic_ui/network/http/API.dart';
+import 'package:trafic_ui/network/models/UserRequestModel.dart';
+import 'package:trafic_ui/network/models/UserResponse.dart';
 import 'package:trafic_ui/profile/last_name.dart';
 import 'package:trafic_ui/size_config.dart';
+import 'package:trafic_ui/util/shared_pref_constant.dart';
+import 'package:trafic_ui/util/shared_preference_util.dart';
 
 import 'otp_screen.dart';
 
@@ -13,8 +18,12 @@ class ContactNumber extends StatefulWidget {
 }
 
 class _ContactNumberState extends State<ContactNumber> {
+  final TextEditingController contactNumber = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final API _api = API();
+
     return Scaffold(
       backgroundColor: Color(0xFFFBFDFF),
       body: Padding(
@@ -56,6 +65,7 @@ class _ContactNumberState extends State<ContactNumber> {
                 child: AatmaNirbharFlutterTextField(
                   textInputType: TextInputType.number,
                   hintText: "Add your number",
+                  editTextController: contactNumber,
                 ),
               ),
               SizedBox(
@@ -63,13 +73,34 @@ class _ContactNumberState extends State<ContactNumber> {
               ),
               DefaultButton(
                 text: "Continue",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OtpScreen(),
-                    ),
-                  );
+                press: () async {
+                  MySharedPreferences.instance.setIntegerValue(
+                      USER_MOBILE_NO, int.parse(contactNumber.text));
+                  UserModel userModel = await getUserModel();
+
+                  Future(() => (_api.getOtp(userModel))).then((value) {
+                    MySharedPreferences.instance.setIntegerValue(
+                        USER_ID, (value as UserResponseModel)?.userId);
+                    MySharedPreferences.instance.setIntegerValue(
+                        USER_KEY, (value as UserResponseModel)?.key);
+                    MySharedPreferences.instance.setIntegerValue(
+                        USER_OTP, (value as UserResponseModel)?.otp);
+                    print("VALUE CONTACT NUBER:: ${value}");
+                    if (value != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtpScreen(),
+                        ),
+                      );
+                    }
+                  });
+                  // _api.getOtp((value) async {
+                  //   // print(value);
+                  // }, userModel);
+                  // print("OTP::" + pin);
+
+                  // print("FIRSTNAME::${contactNumber.text}");
                 },
               ),
               SizedBox(
@@ -102,5 +133,20 @@ class _ContactNumberState extends State<ContactNumber> {
         ),
       ),
     );
+  }
+
+  Future<UserModel> getUserModel() async {
+    // UserModel userModel;
+    String firstName =
+        await MySharedPreferences.instance.getStringValue(USER_FIRST_NAME);
+
+    // .then((value) => {print("FIRSTNAME::${value}")});
+    String lastName =
+        await MySharedPreferences.instance.getStringValue(USER_LAST_NAME);
+    int mobileNo =
+        await MySharedPreferences.instance.getIntegerValue(USER_MOBILE_NO);
+    UserModel userModel =
+        UserModel(firstname: firstName, lastname: lastName, mobileno: mobileNo);
+    return userModel;
   }
 }
