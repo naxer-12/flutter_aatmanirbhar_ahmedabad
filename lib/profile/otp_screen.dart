@@ -138,8 +138,8 @@ class _OtpScreenState extends State<OtpScreen> {
                   "Resend OTP",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(15),
-                    fontWeight: FontWeight.w500,
-                    color: kResendOtpColor,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF1C1D1F),
                     fontFamily: "WorkSans",
                   ),
                 ),

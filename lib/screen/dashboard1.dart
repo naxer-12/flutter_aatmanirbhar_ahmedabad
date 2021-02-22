@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trafic_ui/screen/add_picture.dart';
+import 'package:trafic_ui/screen/notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
@@ -84,11 +85,19 @@ class _Dashboard1State extends State<Dashboard1> {
                     top: 10.0,
                   ),
                   child: IconButton(
-                      icon: Icon(
-                        Icons.notifications_none,
-                        color: Color(0xff20252B),
-                      ),
-                      onPressed: null),
+                    icon: Icon(
+                      Icons.notifications_none,
+                      color: Color(0xff20252B),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Notifications(),
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:trafic_ui/screen/add_picture.dart';
+import 'package:trafic_ui/screen/notifications.dart';
 import '../constants.dart';
 
 class Dashboard2 extends StatefulWidget {
@@ -48,11 +50,19 @@ class _Dashboard2State extends State<Dashboard2> {
                     top: 10.0,
                   ),
                   child: IconButton(
-                      icon: Icon(
-                        Icons.notifications_none,
-                        color: Color(0xff20252B),
-                      ),
-                      onPressed: null),
+                    icon: Icon(
+                      Icons.notifications_none,
+                      color: Color(0xff20252B),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Notifications(),
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             ),
@@ -118,9 +128,19 @@ class _Dashboard2State extends State<Dashboard2> {
                               ),
                             ],
                           ),
-                          child: Icon(
-                            Icons.camera_alt_outlined,
-                            color: Colors.black,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddPicture(),
+                                ),
+                              );
+                            },
+                            child: Icon(
+                              Icons.camera_alt_outlined,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),

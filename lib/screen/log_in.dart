@@ -49,8 +49,8 @@ class LogInScreen extends StatelessWidget {
                 Colors.white,
                 Colors.white,
                 "Continue with Facebook", () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FirstName()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => FirstName()));
             }),
           ),
           SizedBox(
@@ -59,28 +59,39 @@ class LogInScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 40.0),
             child: loginButton(
-                context,
-                kGoogleColor,
-                'assets/images/google.svg',
-                kGoogleTextColor,
-                kGoogleTextColor,
-                "Continue with Google", () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FirstName()));
-            }),
+              context,
+              kGoogleColor,
+              'assets/images/google.svg',
+              kGoogleTextColor,
+              kGoogleTextColor,
+              "Continue with Google",
+              () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FirstName()));
+              },
+            ),
           ),
           SizedBox(
             height: getProportionateScreenWidth(15),
           ),
-          Text(
-            'Use mobile number',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-              color: Color(0xFF1C1D1F),
-              fontFamily: "WorkSans",
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => FirstName()));
+            },
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                'Use mobile number',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  color: Color(0xFF1C1D1F),
+                  fontFamily: "WorkSans",
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
-            textAlign: TextAlign.center,
           ),
           SizedBox(
             height: getProportionateScreenWidth(200),

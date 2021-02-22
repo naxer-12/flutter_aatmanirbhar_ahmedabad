@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:trafic_ui/screen/karma_coins.dart';
+import 'package:trafic_ui/screen/log_in.dart';
 import 'package:trafic_ui/screen/notifications.dart';
 import 'package:trafic_ui/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,7 +18,7 @@ const kResendOtpColor = Color(0xFFD6D6D6);
 
 // Form Error
 final RegExp emailValidatorRegExp =
-RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 const String kEmailNullError = "Please Enter your email";
 const String kInvalidEmailError = "Please Enter Valid Email";
 const String kPassNullError = "Please Enter your password";
@@ -26,7 +27,6 @@ const String kMatchPassError = "Passwords don't match";
 const String kNamelNullError = "Please Enter your name";
 const String kPhoneNumberNullError = "Please Enter your phone number";
 const String kAddressNullError = "Please Enter your address";
-
 
 final headingStyle = TextStyle(
   fontSize: getProportionateScreenWidth(28),
@@ -40,8 +40,7 @@ SnackBar snackBar = SnackBar(
   backgroundColor: kPrimaryColor,
   behavior: SnackBarBehavior.floating,
   shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20))
-  ),
+      borderRadius: BorderRadius.all(Radius.circular(20))),
   content: Text(
     'Hello',
     style: TextStyle(color: Colors.white),
@@ -59,20 +58,18 @@ _launchURL() async {
   }
 }
 
-Drawer myDrawer(screenHeight,screenWidth, context){
+Drawer myDrawer(screenHeight, screenWidth, context) {
   return Drawer(
     child: Container(
       color: Color(0xffFBFDFF),
       child: Padding(
-        padding:
-        EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                const EdgeInsets.only(left: 10.0, bottom: 10.0),
+                padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
                 child: Icon(
                   Icons.account_circle_outlined,
                   size: screenHeight * 0.045,
@@ -82,8 +79,7 @@ Drawer myDrawer(screenHeight,screenWidth, context){
                 onTap: () {},
                 title: Text(
                   'Unique Number',
-                  style:
-                  TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
                 ),
                 subtitle: Row(
                   children: [
@@ -103,40 +99,31 @@ Drawer myDrawer(screenHeight,screenWidth, context){
               ),
               ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Notifications()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Notifications()));
                 },
                 title: Text(
                   'Notifications',
-                  style:
-                  TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
                 ),
               ),
               ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TotalKarma()));
-
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TotalKarma()));
                 },
                 title: Text(
                   'Karma Coins',
-                  style:
-                  TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
                 ),
               ),
               ListTile(
                 onTap: () {
-                  Share.share('check out my App',
-                      subject: 'Look what I made!');
+                  Share.share('check out my App', subject: 'Look what I made!');
                 },
                 title: Text(
                   'Share with friends',
-                  style:
-                  TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
                 ),
               ),
               ListTile(
@@ -146,8 +133,7 @@ Drawer myDrawer(screenHeight,screenWidth, context){
                 },
                 title: Text(
                   'Help',
-                  style:
-                  TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
                 ),
               ),
               ListTile(
@@ -157,8 +143,7 @@ Drawer myDrawer(screenHeight,screenWidth, context){
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Delete Account'),
-                        content: Text(
-                            "Are you sure you want to proceed?"),
+                        content: Text("Are you sure you want to proceed?"),
                         actions: <Widget>[
                           FlatButton(
                             child: Text("YES"),
@@ -181,10 +166,23 @@ Drawer myDrawer(screenHeight,screenWidth, context){
                 },
                 title: Text(
                   'Delete Account',
-                  style:
-                  TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
                 ),
               ),
+              ListTile(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => LogInScreen()),
+                    (route) => false,
+                  );
+                },
+                title: Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 19.0, letterSpacing: 0.5),
+                ),
+              )
             ],
           ),
         ),

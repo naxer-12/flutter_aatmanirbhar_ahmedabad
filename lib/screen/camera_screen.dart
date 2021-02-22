@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 
-typedef reportImage = Function(List<String>);
+typedef reportImage = Function(String);
 
 class CameraScreen extends StatefulWidget {
   reportImage callBack;
@@ -17,7 +17,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   CameraController cameraController;
   List cameras;
-  List<String> imagePaths = List();
+  String imagePaths = "";
   int selectedCameraIndex;
   String imgPath;
 
@@ -128,8 +128,8 @@ class _CameraScreenState extends State<CameraScreen> {
         print("CAMERA VALUE :: $value");
         // Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(imgPath: path,fileName: "$name.png",)));
         print("PHOTO CLICKED 1");
-        imagePaths.add(value?.path);
-        widget.callBack(imagePaths);
+        // imagePaths.add(value?.path);
+        widget.callBack(value?.path);
         Navigator.pop(context);
       });
 //      print("IMAGE PATH :: ${image?.path}");

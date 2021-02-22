@@ -17,7 +17,7 @@ class _AddPictureState extends State<AddPicture> {
   CameraController cameraController;
   List cameras;
   int selectedCameraIdx = 0;
-  List<String> imagePath = List();
+  List<String> imagePath = List.filled(4, "");
   StreamController<int> streamController = new StreamController<int>();
 
   @override
@@ -90,24 +90,28 @@ class _AddPictureState extends State<AddPicture> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          imagePath.length < 4
-                              ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CameraScreen((value) {
-                                      setState(() {
-                                        print("VALUE ADDED::${value.length}");
-                                        // imagePath.clear();
-                                        print(value + imagePath);
-                                        streamController.add(imagePath.length);
-                                        return imagePath.addAll(value);
-                                      });
-                                    }),
-                                  ),
-                                )
-                              : Text(
-                                  'Cannot add more than 4',
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CameraScreen((value) {
+                                setState(
+                                  () {
+                                    print("VALUE ADDED::${value.length}");
+                                    // imagePath.clear();
+                                    // print(value + imagePath);
+                                    for (int i = 0; i < imagePath.length; i++) {
+                                      if (imagePath[i].isEmpty) {
+                                        imagePath[i] = value;
+                                        break;
+                                      }
+                                    }
+                                    streamController.add(0);
+                                    return imagePath;
+                                  },
                                 );
+                              }),
+                            ),
+                          );
                         },
                         child: Icon(
                           Icons.camera_alt_outlined,
@@ -209,55 +213,62 @@ class _AddPictureState extends State<AddPicture> {
                   ],
                 ),
               ),*/
-              imagePath.isNotEmpty
-                  ? Container(
-                      height: screenHeight * 0.1,
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        reverse: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: imagePath.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  streamController.add(index);
-                                },
-                                child: Container(
-                                  height: screenHeight * 0.1,
-                                  width: screenWidth * 0.2,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: imagePath.isNotEmpty
-                                          ? FileImage(
-                                              File(
-                                                imagePath[index],
-                                              ),
-                                            )
-                                          : FileImage(
-                                              File(""),
-                                            ),
-                                    ),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    color: Color(0xffEDF0F2),
-                                  ),
-                                ),
+              Container(
+                height: screenHeight * 0.1,
+                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  // reverse: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 4,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            streamController.add(index);
+                          },
+                          child: Container(
+                            height: screenHeight * 0.1,
+                            width: screenWidth * 0.2,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: imagePath[index].isNotEmpty
+                                    ? FileImage(
+                                        File(
+                                          imagePath[index],
+                                        ),
+                                      )
+                                    : FileImage(
+                                        File(""),
+                                      ),
                               ),
-                              Positioned(
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: Color(0xffEDF0F2),
+                            ),
+                          ),
+                        ),
+                        imagePath[index].isNotEmpty
+                            ? Positioned(
                                 right: 0.0,
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       print("imagepath::${imagePath.length}");
-                                      imagePath.removeAt(index);
-                                      streamController
-                                          .add(imagePath.length - 1);
+                                      imagePath[index] = "";
+
+                                      for (int i = 0;
+                                          i < imagePath.length;
+                                          i++) {
+                                        if (imagePath[index].isNotEmpty) {
+                                          streamController.add(index);
+                                          break;
+                                        }
+                                      }
                                     });
                                   },
                                   child: Align(
@@ -270,13 +281,13 @@ class _AddPictureState extends State<AddPicture> {
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    )
-                  : SizedBox.shrink(),
+                              )
+                            : SizedBox(),
+                      ],
+                    );
+                  },
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
