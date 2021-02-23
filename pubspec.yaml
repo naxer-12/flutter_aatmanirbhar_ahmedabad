@@ -37,6 +37,10 @@ dependencies:
   path_provider: ^1.6.11
   shared_preferences: ^0.5.12+4
   fluttertoast: ^7.1.8
+  geocoder: ^0.2.1
+  dio: ^3.0.10
+  http_parser: ^3.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -40,7 +40,7 @@ class LogInScreen extends StatelessWidget {
           SizedBox(
             height: getProportionateScreenWidth(60),
           ),
-          Container(
+          /*Container(
             margin: EdgeInsets.symmetric(horizontal: 40.0),
             child: loginButton(
                 context,
@@ -70,7 +70,7 @@ class LogInScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => FirstName()));
               },
             ),
-          ),
+          ),*/
           SizedBox(
             height: getProportionateScreenWidth(15),
           ),

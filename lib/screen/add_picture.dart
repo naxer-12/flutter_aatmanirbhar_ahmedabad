@@ -4,9 +4,13 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trafic_ui/network/http/API.dart';
+import 'package:trafic_ui/network/models/CrimeModelData.dart';
 import 'package:trafic_ui/screen/camera_screen.dart';
 import 'package:trafic_ui/screen/dashboard2.dart';
 import 'package:trafic_ui/screen/received_karma.dart';
+import 'package:trafic_ui/util/shared_pref_constant.dart';
+import 'package:trafic_ui/util/shared_preference_util.dart';
 
 class AddPicture extends StatefulWidget {
   @override
@@ -19,6 +23,7 @@ class _AddPictureState extends State<AddPicture> {
   int selectedCameraIdx = 0;
   List<String> imagePath = List.filled(4, "");
   StreamController<int> streamController = new StreamController<int>();
+  final API _api = API();
 
   @override
   Widget build(BuildContext context) {
@@ -292,11 +297,33 @@ class _AddPictureState extends State<AddPicture> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      int key = await MySharedPreferences.instance
+                          .getIntegerValue(USER_KEY);
+                      int userId = await MySharedPreferences.instance
+                          .getIntegerValue(USER_ID);
+
+//                      CrimeModel crimeModel = CrimeModel(
+//                          images: imagePath, userID: userId, key: key);
+//                      Future(() => (_api.addCrimeDetails(crimeModel)))
+//                          .then((value) {
+////                        MySharedPreferences.instance.setIntegerValue(
+////                            USER_ID, (value as UserResponseModel)?.userId);
+////                        MySharedPreferences.instance.setIntegerValue(
+////                            USER_KEY, (value as UserResponseModel)?.key);
+////                        MySharedPreferences.instance.setIntegerValue(
+////                            USER_OTP, (value as UserResponseModel)?.otp);
+//                        print("VALUE CONTACT NUBER:: ${value}");
+//                        if (value != null) {
+//                          print("VALUE RECEIVED:: ${value}");
+//                        }
+//                      });
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => KarmaCoins()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => KarmaCoins(),
+                        ),
+                      );
                     },
                     child: Container(
                       height: 40.0,

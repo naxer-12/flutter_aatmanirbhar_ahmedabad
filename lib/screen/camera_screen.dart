@@ -129,6 +129,7 @@ class _CameraScreenState extends State<CameraScreen> {
         // Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(imgPath: path,fileName: "$name.png",)));
         print("PHOTO CLICKED 1");
         // imagePaths.add(value?.path);
+        print("PATH VALUE :: ${value?.path}");
         widget.callBack(value?.path);
         Navigator.pop(context);
       });
